@@ -1,3 +1,4 @@
+import * as bootstrap from 'bootstrap'
 let boton= document.getElementById('b')
 boton.addEventListener('click',() =>{
     const guardaPedido={
