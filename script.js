@@ -1,3 +1,4 @@
+/*
 import * as bootstrap from 'bootstrap'
 let boton= document.getElementById('b')
 boton.addEventListener('click',() =>{
@@ -18,4 +19,10 @@ boton.addEventListener('click',() =>{
     } catch (error) {
         console.log(error)
     }
+})*/
+let n=0
+let button = document.querySelector('button');
+button.addEventListener('click',()=>{
+    n++
+    console.log('haa')
 })

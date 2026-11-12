@@ -19,7 +19,7 @@
     }
 
 ?>
- <?php
+<?php
         $uri = getenv("MONGODB_URI");
         if (!$uri) {
             echo("no hay URI");

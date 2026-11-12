@@ -1,3 +1,6 @@
+body{
+    background-color: #f4f1de;
+}
 article{
     background-image:url(img/Pikmin_Wallpaper_Peony_3840x2160.jpg);
     background-size: cover;
@@ -5,4 +8,23 @@ article{
     text-align: center;
     align-content: center;
     height: 90vh;
+}
+#grid-productos{
+    padding: 5vh 20vh;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 1fr 1fr;
+    justify-content: center;
+    gap: 1rem;
+    background-color: #f4f1de;
+}
+footer{
+    display:flex;
+    height: 20vh;
+    background-color: #09a70e;
+    align-items: end;
+    padding: 1rem;
+}
+button span{
+    display: none;
 }
