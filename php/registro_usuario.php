@@ -9,10 +9,9 @@
     <!-- js de booostrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     
-    <link rel='stylesheet' href='style.css'>
+    <link rel='stylesheet' href='../style.css'>
 </head>
 <body>
-    <script src="script.js"></script>
     <!-- <button id="b">Añade datos</button> -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
@@ -36,5 +35,54 @@
       </div>
     </div>
   </nav> 
+  <main id="hero_inicio">
+    <h1>Ya puedes entrar<h1>
+  </main>
+
 </body>
 </html>
+<?php
+
+    $nombre_reg =$_POST['nombreregistro'];
+    $email_reg =$_POST['emailregistro'];
+    $password_reg =$_POST['passwordregistro'];
+    $uri = getenv("MONGODB_URI");
+    if (!$uri) {
+        echo("no hay URI");
+        throw new RuntimeException("Falta MONGODB_URI");
+    }
+        
+    $manager = new MongoDB\Driver\Manager($uri);
+
+    $postBody = json_decode(file_get_contents("php://input"), true);
+
+    $data = [
+        "nombre" => $nombre_reg,
+        "email" => $email_reg =$_POST,
+        "password" => $password_reg =$_POST
+    ];
+
+    try{
+      $bulk = new MongoDB\Driver\BulkWrite();
+        
+		  $bulk->insert($data);
+
+      $resultado = $manager->executeBulkWrite( 
+		    "pikminDB.usuarios",
+				$bulk
+			);
+      
+    echo ("hola");
+		  if($resultado->getInsertedCount() !== 1){
+			  throw new RuntimeException("Error al insertar datos");
+		  }
+
+
+    }catch(Throwable $e){
+      http_response_code(500);
+      error_log('Error MongoDB: '. $e->getMessage());
+
+      echo "ERROR DE CONEXIÓN";
+    }
+
+?>

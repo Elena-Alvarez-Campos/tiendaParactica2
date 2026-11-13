@@ -28,3 +28,18 @@ footer{
 button span{
     display: none;
 }
+#hero_inicio{
+    background-image: url(img/Pikmin_Wallpaper_Sweet_Pea_3840x2160.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+#hero_inicio form{
+    background-color: #f4f1de;
+    padding: 3rem;
+    border-radius: 0.5rem;
+}
