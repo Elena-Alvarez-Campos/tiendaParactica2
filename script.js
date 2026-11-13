@@ -21,8 +21,26 @@ boton.addEventListener('click',() =>{
     }
 })*/
 let n=0
-let button = document.querySelector('button');
-button.addEventListener('click',()=>{
+let botones = document.querySelectorAll('button');
+botones.forEach(button => {
+    button.addEventListener('click',()=>{
     n++
-    console.log('haa')
+    button.childNodes[1].textContent++
+    console.log(button.id)
+    let pedido={
+        nombre: button.id,
+        stock: 8-button.childNodes[1] 
+    }
+    try {
+        fetch('php/actualiza_producto.php',{
+            method: 'POST',
+            body: JSON.stringify(pedido)
+        })
+        console.log('conexión con php exitosa')
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+
 })

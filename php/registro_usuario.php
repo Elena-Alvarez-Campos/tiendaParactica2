@@ -58,8 +58,9 @@
 
     $data = [
         "nombre" => $nombre_reg,
-        "email" => $email_reg =$_POST,
-        "password" => $password_reg =$_POST
+        "email" => $email_reg,
+        "password" => $password_reg,
+        "admin" => false
     ];
 
     try{
@@ -72,7 +73,6 @@
 				$bulk
 			);
       
-    echo ("hola");
 		  if($resultado->getInsertedCount() !== 1){
 			  throw new RuntimeException("Error al insertar datos");
 		  }
