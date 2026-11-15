@@ -13,7 +13,6 @@ article{
     padding: 5vh 20vh;
     display: grid;
     grid-template-columns: auto auto auto;
-    grid-template-rows: 1fr 1fr;
     justify-content: center;
     gap: 1rem;
     background-color: #f4f1de;
@@ -42,4 +41,13 @@ button span{
     background-color: #f4f1de;
     padding: 3rem;
     border-radius: 0.5rem;
+}
+#icono-user img{
+    height: 3rem;
+    border-radius: 50%;
+    border-color: #09a70e;
+    border-style: solid;
+}
+#icono-user{
+    margin-right:1rem ;
 }

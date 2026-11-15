@@ -1,3 +1,17 @@
+<?php
+        $uri = getenv("MONGODB_URI");
+        if (!$uri) {
+            echo("no hay URI");
+            throw new RuntimeException("Falta MONGODB_URI");
+        }
+        
+        $manager = new MongoDB\Driver\Manager($uri);
+        $command = new MongoDB\Driver\Command(['ping'=> 1]);
+        $manager->executeCommand('admin', $command);
+        $query = new MongoDB\Driver\Query([],['project'=> ['nombre'=> "fuente"]]);
+        
+
+?>
 <!DOCTYPE html>
 <html lang='es'>
 <head>
@@ -51,12 +65,24 @@
         <h5 class="card-title">Cuenco pikmin varios</h5>
         <p class="card-text">Estos adorables pikmins se beberán tu sopa si no tienes cuidado.</p>
         <h4>16,99€</h4>
-        <button type="button" id="cuenco" class="btn btn-primary position-relative">Comprar 
+        <button type="button" id="cuenco" class="btn btn-primary position-relative" >Comprar 
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             0
           </span> 
         </button>
-        <span class="badge bg-secondary">Stock: 8</span>
+        <span class="stock badge bg-secondary">
+          Stock
+          <div>
+          <?php
+          $rows = $manager->executeQuery('pikminDB.productos', $query);
+            foreach($rows as $r){
+                if (json_decode(json_encode($r),true)["nombre"]=="cuenco") {
+                  print_r(json_decode(json_encode($r),true)["stock"]);
+                }
+            }
+          ?>
+          </div>
+        </span>
       </div>
     </div>
 
@@ -71,7 +97,18 @@
             0
           </span> 
         </button>
-        <span class="badge bg-secondary">Stock: 8</span>
+        <span class="stock badge bg-secondary">Stock
+          <div>
+          <?php
+          $rows = $manager->executeQuery('pikminDB.productos', $query);
+            foreach($rows as $r){
+                if (json_decode(json_encode($r),true)["nombre"]=="colgante") {
+                  print_r(json_decode(json_encode($r),true)["stock"]);
+                }
+            }
+          ?>
+          </div>
+        </span>
       </div>
     </div>
 
@@ -86,7 +123,18 @@
             0
           </span> 
         </button>
-        <span class="badge bg-secondary">Stock: 8</span>
+        <span class="stock badge bg-secondary">Stock
+          <div>
+          <?php
+          $rows = $manager->executeQuery('pikminDB.productos', $query);
+            foreach($rows as $r){
+                if (json_decode(json_encode($r),true)["nombre"]=="clips") {
+                  print_r(json_decode(json_encode($r),true)["stock"]);
+                }
+            }
+          ?>
+          </div>
+        </span>
       </div>
     </div>
 
@@ -101,7 +149,18 @@
             0
           </span> 
         </button>
-        <span class="badge bg-secondary">Stock: 8</span>
+        <span class="stock badge bg-secondary">Stock
+          <div>
+          <?php
+          $rows = $manager->executeQuery('pikminDB.productos', $query);
+            foreach($rows as $r){
+                if (json_decode(json_encode($r),true)["nombre"]=="fuente") {
+                  print_r(json_decode(json_encode($r),true)["stock"]);
+                }
+            }
+          ?>
+          </div>
+          </span>
       </div>
     </div>
 
@@ -116,7 +175,18 @@
             0
           </span> 
         </button>
-        <span class="badge bg-secondary">Stock: 8</span>
+        <span class="stock badge bg-secondary">Stock
+          <div>
+          <?php
+          $rows = $manager->executeQuery('pikminDB.productos', $query);
+            foreach($rows as $r){
+                if (json_decode(json_encode($r),true)["nombre"]=="vaso") {
+                  print_r(json_decode(json_encode($r),true)["stock"]);
+                }
+            }
+          ?>
+          </div>
+        </span>
       </div>
     </div>
 
@@ -132,7 +202,18 @@
             0
           </span> 
         </button>
-        <span class="badge bg-secondary">Stock: 8</span>
+        <span class="stock badge bg-secondary">Stock
+          <div>
+          <?php
+          $rows = $manager->executeQuery('pikminDB.productos', $query);
+            foreach($rows as $r){
+                if (json_decode(json_encode($r),true)["nombre"]=="sudadera") {
+                  print_r(json_decode(json_encode($r),true)["stock"]);
+                }
+            }
+          ?>
+          </div>
+        </span>
 
       </div>
     </div>

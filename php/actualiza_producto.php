@@ -9,36 +9,26 @@
         $manager = new MongoDB\Driver\Manager($uri);
         $command = new MongoDB\Driver\Command(['ping'=> 1]);
         $manager->executeCommand('admin', $command);
-
-        $query = new MongoDB\Driver\Query(['project'=> ['nombre'=> 'cuenco']],[]);
-            $rows = $manager->executeQuery('pikminDB.productos', $query);
-
-            foreach($rows as $r){
-                print_r(json_decode(json_encode($r),true)["nombre"]);
-            }
-    try{
-        $query = new MongoDB\Driver\Query('nombre',[]);
-        $rows = $mongo->executeQuery('pikminDB.usuarios', $query); // $mongo contains the connection object to MongoDB
-        foreach($rows as $r){
-            print_($r);
-        }
-        $bulk = new MongoDB\Driver\BulkWrite();
+        $postBody = json_decode(file_get_contents("php://input"), true);
+        $bulk = new MongoDB\Driver\BulkWrite;
         
-		$bulk->insert($data);
-        $resultado = $manager->executeBulkWrite( 
-			"pikminDB.productos",
-				$bulk
-			);
+        $data = [
+            "nombre" => $postBody['nombre'],
+            "carrito" => $postBody['carrito']
+        ];
+        $_SESSION["carrito"]= $data["carrito"];
+        $query = new MongoDB\Driver\Query([],['project'=> ['nombre'=> "fuente"]]);
+            $rows = $manager->executeQuery('pikminDB.productos', $query);
+        
+            foreach($rows as $r){
+                if (json_decode(json_encode($r),true)["nombre"]==$data["nombre"]) {
+                    print_r(json_decode(json_encode($r),true)["nombre"]);
 
-		if($resultado->getInsertedCount() !== 1){
-			throw new RuntimeException("Error al insertar datos");
-		}
+                    print_r(json_decode(json_encode($r),true)["stock"]);
+                    
+                    $bulk->update(['nombre' => $data["nombre"]], ['$set' => ['stock' => (json_decode(json_encode($r),true)["stock"])-1]]);
+                }
+            }
+        $result = $manager->executeBulkWrite('pikminDB.productos', $bulk);
 
-
-    }catch(Throwable $e){
-        http_response_code(500);
-        error_log('Error MongoDB: '. $e->getMessage());
-
-        echo "ERROR DE CONEXIÓN";
-    }
 ?>

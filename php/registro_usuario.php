@@ -4,6 +4,7 @@
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Page Title</title>
+    
      <!-- css de boostrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- js de booostrap -->
@@ -60,7 +61,9 @@
         "nombre" => $nombre_reg,
         "email" => $email_reg,
         "password" => $password_reg,
-        "admin" => false
+        "admin" => false,
+        "carrito"=> {},
+        "historial"=> []
     ];
 
     try{
@@ -76,7 +79,11 @@
 		  if($resultado->getInsertedCount() !== 1){
 			  throw new RuntimeException("Error al insertar datos");
 		  }
-
+      session_start();
+      $_SESSION["_id"]= json_decode(json_encode($r),true)["_id"]
+      $_SESSION["nombre"]= $nombre_reg
+      $_SESSION["carrito"]={}//tendrá el nombre y la cantidad del producto
+      $_SESSION["historial"]=[]//tendrá el historial de compras
 
     }catch(Throwable $e){
       http_response_code(500);
