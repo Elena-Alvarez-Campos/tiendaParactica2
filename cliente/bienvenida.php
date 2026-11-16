@@ -1,8 +1,26 @@
 <?php
   session_start();
-
+  $_SESSION["nombre"] = $_GET["nombre"];
+  
   if(!isset($_SESSION["nombre"])){
     echo("INTRUSOOOO FUERA DE AQUÍ");
+  }
+  $uri = getenv("MONGODB_URI");
+  if (!$uri) {
+    echo("no hay URI");
+    throw new RuntimeException("Falta MONGODB_URI");
+  }    
+  $manager = new MongoDB\Driver\Manager($uri);
+  $command = new MongoDB\Driver\Command(['ping'=> 1]);
+  $manager->executeCommand('admin', $command);
+  $query = new MongoDB\Driver\Query([],['project'=> ['nombre'=> "fuente"]]);
+  $rows = $manager->executeQuery('pikminDB.usuarios', $query);
+  foreach($rows as $r){
+    if (json_decode(json_encode($r),true)["nombre"]==$_SESSION["nombre"]) {
+      $_SESSION["carrito"]=json_decode(json_encode($r),true)["carrito"];
+      $_SESSION["email"]=json_decode(json_encode($r),true)["email"];
+      $_SESSION["historial"]=json_decode(json_encode($r),true)["historial"];
+    }
   }
 ?>
 <!DOCTYPE html>

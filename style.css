@@ -37,10 +37,34 @@ button span{
     justify-content: center;
     gap: 1rem;
 }
+#hero_contacto{
+    background-image: url(img/Pikmin_Wallpaper_Rose_3840x2160.jpg);
+    background-size: cover;
+    background-position: bottom;
+    height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+#hero_contacto form{
+    background-color: #f4f1de;
+    padding: 3rem;
+    border-radius: 0.5rem;
+}
 #hero_inicio form{
     background-color: #f4f1de;
     padding: 3rem;
     border-radius: 0.5rem;
+}
+#hero_perfil{
+    background-color: #f4f1de;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10rem;
+    padding: 2rem;
 }
 #icono-user img{
     height: 3rem;
@@ -50,4 +74,17 @@ button span{
 }
 #icono-user{
     margin-right:1rem ;
+}
+#imagen-user img{
+    height: 60vh;
+}
+#hero_perfil aside{
+    height: 60vh;
+    width: 60vh;
+}
+.d{
+    background-color: #fff;
+    width: 100%;
+    height: 5vh;
+    
 }

@@ -23,6 +23,7 @@ boton.addEventListener('click',() =>{
 let n=0
 let botones = document.querySelectorAll('button');
 let compra={}
+console.log(compra)
 botones.forEach(button => {
     button.addEventListener('click',()=>{
         if (button.id=='carrito') {
@@ -32,6 +33,11 @@ botones.forEach(button => {
             let total=button.nextSibling.nextSibling.childNodes[1].textContent.trim()
         button.childNodes[1].textContent++
         let producto=button.id;
+        if (compra[producto]==undefined) {
+                //nombre producto y su cantidad
+                compra[producto]=0
+            }
+            compra[producto]++
         let pedido={
             nombre: button.id,//nombre del artículo
             carrito: compra
@@ -44,17 +50,12 @@ botones.forEach(button => {
         }
         
         try {
-            fetch('../../php/actualiza_producto.php',{
+            fetch('/cliente/php/actualiza_producto.php',{
                 method: 'POST',
                 body: JSON.stringify(pedido)
             })
             console.log('conexión con php exitosa')
-            if (compra[producto]==undefined) {
-                //nombre producto y su cantidad
-                compra[producto]=0
-            }
-            compra[producto]++
-            console.log(compra)
+            
         } catch (error) {
             console.log(error)
         }

@@ -1,5 +1,5 @@
 <?php
-        
+        session_start();
         $uri = getenv("MONGODB_URI");
         if (!$uri) {
             echo("no hay URI");
@@ -16,8 +16,12 @@
             "nombre" => $postBody['nombre'],
             "carrito" => $postBody['carrito']
         ];
-        $_SESSION["carrito"]= $data["carrito"];
-        $query = new MongoDB\Driver\Query([],['project'=> ['nombre'=> "fuente"]]);
+        foreach ($data["carrito"] as $productos => $value){
+            $_SESSION["carrito"][$productos]=$_SESSION["carrito"][$productos]+$value;
+        }
+        $query = new MongoDB\Driver\Query([],[]);
+
+        //actualiza productos
             $rows = $manager->executeQuery('pikminDB.productos', $query);
         
             foreach($rows as $r){
@@ -29,6 +33,20 @@
                     $bulk->update(['nombre' => $data["nombre"]], ['$set' => ['stock' => (json_decode(json_encode($r),true)["stock"])-1]]);
                 }
             }
+            
         $result = $manager->executeBulkWrite('pikminDB.productos', $bulk);
+        
+        //actualiza carrito
+        $bulk2 = new MongoDB\Driver\BulkWrite;
+
+        $rows2 = $manager->executeQuery('pikminDB.usuarios', $query);
+        foreach($rows2 as $r){
+            if (json_decode(json_encode($r),true)["email"]==$_SESSION["email"]) {
+                
+                $bulk2->update(['email' => $_SESSION["email"]], ['$set' => ['carrito' => $_SESSION["carrito"]]]);
+            }
+        }
+        $result2 = $manager->executeBulkWrite('pikminDB.usuarios', $bulk2);
+
 
 ?>

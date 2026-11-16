@@ -68,7 +68,6 @@
       <button type="submit" class="btn btn-primary">Iniciar sesión</button>
     </form>
   </main>
-  <script src="script.js"></script>
 
 </body>
 </html>

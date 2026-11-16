@@ -1,4 +1,9 @@
 <?php
+session_start();
+echo(var_dump($_SESSION["carrito"]));
+  if(!isset($_SESSION["nombre"])){
+    echo("INTRUSOOOO FUERA DE AQUÍ");
+  }
         $uri = getenv("MONGODB_URI");
         if (!$uri) {
             echo("no hay URI");
@@ -9,7 +14,7 @@
         $command = new MongoDB\Driver\Command(['ping'=> 1]);
         $manager->executeCommand('admin', $command);
         $query = new MongoDB\Driver\Query([],['project'=> ['nombre'=> "fuente"]]);
-        
+        $rows = $manager->executeQuery('pikminDB.usuarios', $query);
 
 ?>
 <!DOCTYPE html>
@@ -30,7 +35,7 @@
   
   
     <!-- <button id="b">Añade datos</button>-->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">PikminTienda</a>
       <button id="bot1" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,13 +47,13 @@
             <a class="nav-link active" aria-current="page" href="inicio.php">Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.php">Tienda</a>
+            <a class="nav-link active" aria-current="page" href="tienda.php">Tienda</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="contacto.html">Contacto</a>
           </li>
         </ul>
-        <a id="icono-user" href="perfil.html"><img src="../img/icon-gris.jpg" ></a>
+        <a id="icono-user" href="perfil.php"><img src="../img/icon-gris.jpg" ></a>
         <button id="carrito" class="btn btn-outline-success" type="submit">Carrito</button>
       </div>
     </div>
