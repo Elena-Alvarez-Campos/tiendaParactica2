@@ -26,11 +26,7 @@
             foreach($rows as $r){
                 if (json_decode(json_encode($r),true)["nombre"]==$data['nombre'] &&  json_decode(json_encode($r),true)["password"]==$data['password']) {
                     $encontrado=true;
-                        // $_SESSION["nombre"]= $data['nombre'];
-                        // $_SESSION["carrito"]=new class{};
-                        // $_SESSION["historial"]=[];
                     if (json_decode(json_encode($r),true)["admin"]==true) {
-                        echo "<script>window.location.href='../admin/bienvenida.html';</script>";
                         header("Location: ../admin/bienvenida.php?nombre=" . urlencode(json_decode(json_encode($r),true)["nombre"]));
                         
                         }else{

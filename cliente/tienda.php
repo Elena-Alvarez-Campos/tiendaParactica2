@@ -1,6 +1,5 @@
 <?php
 session_start();
-echo(var_dump($_SESSION["carrito"]));
   if(!isset($_SESSION["nombre"])){
     echo("INTRUSOOOO FUERA DE AQUÍ");
   }

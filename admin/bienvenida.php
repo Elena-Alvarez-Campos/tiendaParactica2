@@ -1,3 +1,28 @@
+<?php
+  session_start();
+  $_SESSION["nombre"] = $_GET["nombre"];
+  
+  if(!isset($_SESSION["nombre"])){
+    echo("INTRUSOOOO FUERA DE AQUÍ");
+  }
+  $uri = getenv("MONGODB_URI");
+  if (!$uri) {
+    echo("no hay URI");
+    throw new RuntimeException("Falta MONGODB_URI");
+  }    
+  $manager = new MongoDB\Driver\Manager($uri);
+  $command = new MongoDB\Driver\Command(['ping'=> 1]);
+  $manager->executeCommand('admin', $command);
+  $query = new MongoDB\Driver\Query([],['project'=> ['nombre'=> "fuente"]]);
+  $rows = $manager->executeQuery('pikminDB.usuarios', $query);
+  foreach($rows as $r){
+    if (json_decode(json_encode($r),true)["nombre"]==$_SESSION["nombre"]) {
+      $_SESSION["carrito"]=json_decode(json_encode($r),true)["carrito"];
+      $_SESSION["email"]=json_decode(json_encode($r),true)["email"];
+      $_SESSION["historial"]=json_decode(json_encode($r),true)["historial"];
+    }
+  }
+?>
 <!DOCTYPE html>
 <html lang='es'>
 <head>
@@ -14,25 +39,25 @@
 </head>
 <body>
     <!-- <button id="b">Añade datos</button> -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">PikminTienda</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button id="bot1" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="inicio.html">Inicio</a>
+            <a class="nav-link active" aria-current="page" href="inicio.php">Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="tienda.html">Tienda</a>
+            <a class="nav-link active" aria-current="page" href="tienda.php">Tienda</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="contacto.html">Contacto</a>
+            <a class="nav-link active" aria-current="page" href="pedidos.php">Pedidos</a>
           </li>
         </ul>
-          <button class="btn btn-outline-success" type="submit">Carrito</button>
+        <a id="icono-user" href="perfil.php"><img src="../img/icon-gris.jpg" ></a>
       </div>
     </div>
   </nav> 
